@@ -1,0 +1,222 @@
+/* 1 */
+{
+    "_id" : ObjectId("592c4d1d80e1140430d3235b"),
+    "Descripcion" : "Drecipcion del producto",
+    "Nombre" : "Prensas",
+    "__v" : 0.0,
+    "Url_imagen_1" : "imagenes/productos/592c4d1d80e1140430d3235b966_1.jpg",
+    "Url_imagen_2" : "imagenes/productos/592c4d1d80e1140430d3235b966_2.jpg",
+    "Url_imagen_3" : "imagenes/productos/592c4d1d80e1140430d3235b966_3.jpg",
+    "Url_imagen_4" : "imagenes/productos/592c4d1d80e1140430d3235b966_4.jpg",
+    "video" : {
+        "estado" : false,
+        "video_1" : "",
+        "video_2" : ""
+    },
+    "Especificacion" : [ 
+        {
+            "descripcion" : ".nueva descripcion ",
+            "caracteristica" : ".Descrio ",
+            "_id" : ObjectId("599c73e1a798e000048cf16c")
+        }
+    ],
+    "Url_imagen_5" : "imagenes/productos/592c4d1d80e1140430d3235b966_5.jpg"
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("592dfbe54038c6165c5c2ff6"),
+    "Descripcion" : "pequeña descripcion del productos",
+    "Nombre" : "Heat Stake",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("592dfc254038c6165c5c2ff7"),
+    "Descripcion" : "Descripcion del producto",
+    "Nombre" : "Vision Artificial",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("592dfc4d4038c6165c5c2ff8"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Conveyors",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("592dfcae4038c6165c5c2ff9"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Fixtures para Producción",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("592dfd164038c6165c5c2ffa"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Pallets para Soldadura",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("592dfdf5ba235132c8adfc84"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Tableros de Ensamble",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("592dfe60ba235132c8adfc85"),
+    "Descripcion" : "Pick & Place\r\n\r\nBreve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Mesas de Prueba",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("592c4da480e1140430d3235c"),
+    "Descripcion" : "Pequeña descripción de este producto ",
+    "Nombre" : "Sist. Control de Movimientos",
+    "__v" : 0.0,
+    "Url_imagen_1" : "imagenes/productos/592c4da480e1140430d3235c190_1.jpg",
+    "Url_imagen_2" : "imagenes/productos/592c4da480e1140430d3235c190_2.jpg",
+    "Url_imagen_3" : "imagenes/productos/592c4da480e1140430d3235c190_3.jpg",
+    "Url_imagen_4" : "imagenes/productos/592c4da480e1140430d3235c190_4.jpg",
+    "video" : {
+        "estado" : false,
+        "video_1" : "",
+        "video_2" : ""
+    },
+    "Url_imagen_5" : "imagenes/productos/592c4da480e1140430d3235c190_5.jpg",
+    "Especificacion" : [ 
+        {
+            "descripcion" : "95 - 145Vca",
+            "caracteristica" : "Voltaje(s) nominal(es) de entrada soportado(s)",
+            "_id" : ObjectId("5981113419e1340004807ed1")
+        }
+    ]
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("592dfe8aba235132c8adfc86"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Electronicos",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : ""
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("592dfea9ba235132c8adfc87"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Estructuras Metalica",
+    "__v" : 0.0,
+    "Url_imagen_1" : "",
+    "Url_imagen_2" : "",
+    "Url_imagen_3" : "",
+    "Url_imagen_4" : "",
+    "Especificacion" : [],
+    "video" : {
+        "estado" : true,
+        "video_1" : "<iframe width=\"180\" height=\"720\" src=\"https://www.youtube.com/embed/dC9mS_jfdtE\" frameborder=\"0\" allowfullscreen></iframe>",
+        "video_2" : "<iframe width=\"540\" height=\"360\" src=\"https://www.youtube.com/embed/dC9mS_jfdtE\" frameborder=\"0\" allowfullscreen></iframe>"
+    }
+}
+
+/* 12 */
+{
+    "_id" : ObjectId("592dfee2ba235132c8adfc88"),
+    "Descripcion" : "Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración, Breve descipción del producto, este texto solo es de muestra, no representa nada respecto a la marca solo es para fines de demostración,",
+    "Nombre" : "Estructuras Acero Inoxidable",
+    "__v" : 0.0,
+    "Url_imagen_1" : "imagenes/productos/592dfee2ba235132c8adfc88415_1.jpg",
+    "Url_imagen_2" : "imagenes/productos/592dfee2ba235132c8adfc88415_2.jpg",
+    "Url_imagen_3" : "imagenes/productos/592dfee2ba235132c8adfc88415_3.jpg",
+    "Url_imagen_4" : "imagenes/productos/592dfee2ba235132c8adfc88415_4.jpg",
+    "Especificacion" : [ 
+        {
+            "descripcion" : "Tu sabes como lo hago",
+            "caracteristica" : "Voltaje(s) nominal(es) de entrada soportado(s)",
+            "_id" : ObjectId("594d9307a0d0ff0ca32ad5d6")
+        }, 
+        {
+            "descripcion" : "500 VA",
+            "caracteristica" : "agrego otra madre",
+            "_id" : ObjectId("594d9307a0d0ff0ca32ad5d5")
+        }, 
+        {
+            "descripcion" : "vale verga la live",
+            "caracteristica" : "Capacidad de salida Watts",
+            "_id" : ObjectId("594d9307a0d0ff0ca32ad5d4")
+        }
+    ],
+    "video" : {
+        "estado" : true,
+        "video_1" : "<iframe width=\"680\" height=\"720\" src=\"https://www.youtube.com/embed/dC9mS_jfdtE\" frameborder=\"0\" allowfullscreen></iframe>",
+        "video_2" : "<iframe width=\"640\" height=\"360\" src=\"https://www.youtube.com/embed/dC9mS_jfdtE\" frameborder=\"0\" allowfullscreen></iframe>"
+    }
+}
+
+/* 13 */
+{
+    "_id" : ObjectId("592c4c5e80e1140430d3235a"),
+    "Descripcion" : "Esto ya funciona bien we  jodes",
+    "Nombre" : "Pick & Place",
+    "__v" : 0.0,
+    "Url_imagen_1" : "imagenes/productos/592c4c5e80e1140430d3235a204_1.jpg",
+    "Url_imagen_2" : "imagenes/productos/592c4c5e80e1140430d3235a204_2.jpg",
+    "Url_imagen_3" : "imagenes/productos/592c4c5e80e1140430d3235a204_3.jpg",
+    "Url_imagen_4" : "imagenes/productos/592c4c5e80e1140430d3235a204_4.jpg",
+    "Especificacion" : [ 
+        {
+            "descripcion" : "Aqui van los prod",
+            "caracteristica" : "Actualizar",
+            "_id" : ObjectId("5977ecb31a59c6000498fe9b")
+        }
+    ],
+    "video" : {
+        "estado" : false,
+        "video_1" : "",
+        "video_2" : ""
+    },
+    "Url_imagen_5" : "imagenes/productos/592c4c5e80e1140430d3235a204_5.jpg"
+}

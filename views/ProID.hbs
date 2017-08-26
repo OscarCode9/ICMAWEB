@@ -1,0 +1,220 @@
+<style type="text/css">
+	nav {
+		color: #fff;
+		background-color: #cccccc;
+		width: 100%;
+		height: 127px;
+		line-height: 56px;
+	}
+
+	body {
+		font-family: sans-serif;
+		font-size: 1.3em;
+	}
+
+	#hed,
+	#videos {
+		padding: 3%;
+		background-color: #101833;
+	}
+
+	#tituloP,
+	h3 {
+		color: #00cc00;
+	}
+
+	#nametext {
+		font-size: 1.4em;
+		font-family: cursive;
+	}
+
+	#videos {
+		padding: 2%;
+	}
+</style>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
+
+</head>
+</br>
+</br>
+</br>
+<ul id="slide-out" class="side-nav">
+	{{#each productos}}
+	<li class="productos"><a href="/productos/{{_id}}" id="text">{{Nombre}}</a></li>
+	{{/each}}
+</ul>
+</br>
+</br>
+</br>
+
+<div id="modal1" class="modal">
+	<div class="modal-content">
+		<h4 id="titutloPro">Cotización de {{Pro.Nombre}} </h4>
+		<div class="row">
+			<form id="cotiza" class="col s12" enctype="multipart/form-data">
+				<div class="row">
+					<div class="input-field col s6">
+						<input id="first_name" type="text" class="validate" name="nombre">
+						<label for="first_name">Nombre</label>
+					</div>
+					<div class="input-field col s6">
+						<input id="first_name" type="text" class="validate" name="apellidos">
+						<label for="first_name">Apellidos</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="first_name" type="text" class="validate" name='email'>
+						<label for="first_name">Correo electrónico</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<textarea id="textarea1" class="materialize-textarea" name="requerim"></textarea>
+						<label for="textarea1">Requerimientos</label>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+		<a href="#!" id="enviar" class="modal-action waves-effect waves-green btn-flat">Enviar</a>
+	</div>
+</div>
+<div class="row" id="hed">
+	<div class="col s12 m6 l8">
+		<div class="h1_1">
+			{{#if idPro}}
+			<h3 id="tituloP">{{Pro.Nombre}}</h3>
+			<p id="nametext" class="white-text">{{Pro.Descripcion}}</p>
+			{{else}}
+			<h3><strong>{{nom.nom}}</strong></h3>
+			<p>{{nom.des}}</p>
+			{{/if}}
+		</div>
+
+	</div>
+	<div class="col s12 m6 l4">
+		<img src="../{{Pro.Url_imagen_5}}">
+	</div>
+</div>
+<div class="container">
+
+
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_1}}">
+		</div>
+		<div class="col s12 m12 l6">
+			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_2}}">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_3}}">
+		</div>
+		<div class="col s12 m12 l6">
+			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_4}}">
+		</div>
+	</div>
+
+	<h3>Especificaciones tecnicas</h3>
+	<div class="row">
+		<table class="striped">
+			<thead>
+				<tr>
+					<th>Caracteristica</th>
+					<th>Descripción</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{{#each Pro.Especificacion}}
+				<tr>
+					<td>{{caracteristica}}</td>
+					<td>{{descripcion}}</td>
+				</tr>
+				{{/each}}
+
+			</tbody>
+		</table>
+	</div>
+
+
+</div>
+
+
+{{#if Pro.video.estado}}
+<div class="row" id="videos">
+	<h1>Videos del producto</h1>
+
+	{{/if}}
+	<div class="row center ">
+
+		{{#if Pro.video.estado}}
+		<div class="col s12 m12 l6">
+			{{#Frame}}{{/Frame}}
+		</div>
+		<div class="col s12 m12 l6">
+			{{#Freme2}}{{/Freme2}}
+		</div>
+		{{/if}}
+
+	</div>
+
+</div>
+<div class="row center ">
+	<a href="#" data-activates="slide-out" class="waves-effect waves-light btn button-collapse">Ver todos los productos</a>
+	<a href="#modal1" class=" btn waves-effect waves-light green ">Solicitar cotización</a>
+</div>
+
+
+<script>
+	$(document).ready(function () {
+		$(".button-collapse").sideNav();
+		$('.materialboxed').materialbox();
+		$('#enviar').click(() => {
+			
+			var formElement = document.getElementById("cotiza");
+			var formData = new FormData(formElement);
+			$.ajax({
+				url: '/cotizacion',
+				type: 'POST',
+				async: false,
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (returndata) {
+					$('#modal1').modal('close');
+					alert(returndata.enviado);
+				},
+				error: function () {
+					alert("Hubo un problema al enviar los datos");
+
+				}
+			});
+		})
+
+
+		$('.modal').modal({
+			dismissible: true, // Modal can be dismissed by clicking outside of the modal
+			opacity: .1, // Opacity of modal background
+			inDuration: 50, // Transition in duration
+			outDuration: 50, // Transition out duration
+			startingTop: '4%', // Starting top style attribute
+			endingTop: '10%', // Ending top style attribute
+			ready: function (modal, trigger) {
+				console.log(modal, trigger);
+			},
+			// Callback for Modal close
+		}
+		);
+	});
+
+</script>

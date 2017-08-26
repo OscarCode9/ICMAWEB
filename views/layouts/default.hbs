@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>{{title}}</title>
+  {{#if proValue}}
+  <link rel="stylesheet" href="../../estilos/estilos.css">
+  <link rel="stylesheet" href="../../style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+  {{else}}
+  <link rel="stylesheet" href="estilos/estilos.css">
+  <link rel="stylesheet" href="style.css">
+  {{/if}}
+  
+
+  <!-- Start WOWSlider.com HEAD section -->
+  {{#if proValue}}
+  <link rel="stylesheet" type="text/css" href="../../engine1/style.css" />
+  <script type="text/javascript" src="../../engine1/jquery.js"></script>
+
+  {{else}}
+  <link rel="stylesheet" type="text/css" href="engine1/style.css" />
+  <script type="text/javascript" src="engine1/jquery.js"></script>
+
+  {{/if}}
+
+  <!-- End WOWSlider.com HEAD section -->
+
+  <style type="text/css">
+  .redes {
+    padding: 0px;
+    display: inline-block;
+    margin: auto;
+    width: 50%;
+    text-align: right;
+    color: rgba(0,0,0,1);
+}
+    body,
+    td,
+    th {
+      font-family: Oswald, sans-serif;
+    }
+
+    a:link {
+      text-decoration: none;
+      color: rgba(51, 51, 51, 1);
+    }
+
+    a:visited {
+      text-decoration: none;
+      color: rgba(51, 51, 51, 1);
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: rgba(51, 51, 51, 1);
+    }
+
+    a:active {
+      text-decoration: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Open Sans", sans-serif;
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
+
+</head>
+
+<body>
+  <div id="container">
+
+    <header class="header">
+      <div class="contenedor">
+        {{#if idPro}}
+   				<h1 class="logo"><a style="display: block; height: 100%;" href="/"><img src="../imagenes/ICMA AUTOMATION-01.png" alt=""></a></h1>
+  				{{else}}
+    			<h1 class="logo"><a style="display: block; height: 100%;" href="/"><img src="imagenes/ICMA AUTOMATION-01.png" alt=""></a></h1>
+  				{{/if}}
+        
+        <span class="icon-menu" id="btn-menu"></span>
+        {{#if idPro}}
+        <nav class="nav" id="nav">
+
+          <ul class="menu">
+            <li class="menu__item">
+              <a href="../" class="menu__link"><span class="icon-home4"> </span>Inicio</a></li>
+            <li class="menu__item"><a href="../servicios" class="menu__link "><span class="icon-lamp5"> </span>Servicios<span class="icon-triangle-down"></a>
+              <ul>
+                <li><a href="#">Aliado Tecnológico</a></li>
+                <li><a href="#">Cambiando Paradigmas</a></li>
+                <li><a href="#">Benchmarking</a></li>
+              </ul>
+            </li>
+            <li class="menu__item"><a href="../productos" class="menu__link "><span class="icon-build"> </span>&nbsp;Productos<span class="icon-triangle-down"></span></a>
+              <ul class="lista_productos">
+               {{#each productos}}
+		            <li class="productos" ><a href="/productos/{{_id}}"  id="text">{{Nombre}}</a></li>
+		           {{/each}}
+              </ul>
+            </li>
+            <li class="menu__item"><a href="../galeria" class="menu__link"><span class="icon-images"> </span>Galería</a></li>
+            <li class="menu__item"><a href="../contacto" class="menu__link"><span class="icon-phone"> </span>Contacto</a></li>
+          </ul>
+        </nav>
+
+
+        {{else}}
+        <nav class="nav" id="nav">
+
+          <ul class="menu">
+            <li class="menu__item">
+              <a href="/" class="menu__link {{uno}}"><span class="icon-home4"> </span>Inicio</a></li>
+            <li class="menu__item"><a href="servicios" class="menu__link {{dos}}"><span class="icon-lamp5"> </span>Servicios<span class="icon-triangle-down"></a>
+              <ul>
+                <li><a href="#">Aliado Tecnológico</a></li>
+                <li><a href="#">Cambiando Paradigmas</a></li>
+                <li><a href="#">Benchmarking</a></li>
+              </ul>
+            </li>
+            <li class="menu__item"><a href="productos" class="menu__link {{tres}}"><span class="icon-build"> </span>&nbsp;Productos<span class="icon-triangle-down"></span></a>
+              <ul class="lista_productos">
+                {{#each productos}}
+		            <li class="productos" ><a href="/productos/{{_id}}"  id="text">{{Nombre}}</a></li>
+		           {{/each}}
+              </ul>
+            </li>
+            <li class="menu__item"><a href="galeria" class="menu__link {{cuatro}}"><span class="icon-images"> </span>Galería</a></li>
+            <li class="menu__item"><a href="contacto" class="menu__link {{cinco}}"><span class="icon-phone"> </span>Contacto</a></li>
+          </ul>
+        </nav>
+        {{/if}}
+      </div>
+    </header>
+
+    
+
+    
+    {{{body}}}
+    
+    
+
+<div class="cinta"></div>
+    <div class="cintillo_abajo">
+      
+      <h1 class="h1"><span class="icon-copyright"> </span>ICMA Automation 2017</h1>
+      {{#if contact}}
+      <h1 class="h1"><a href="../contacto"><span class="icon-mail2"> </span>Contactanos</a></h1>
+      {{else}}
+      <h1 class="h1"><a href="contacto"><span class="icon-mail2"> </span>Contactanos</a></h1>
+      {{/if}}
+
+      
+      <h1 class="h1"><span class="icon-copyright"> </span>ICMA Ingeniería Total 2017<br/></h1>
+      <div class="redes">
+      Siguenos en: <br/>
+      <a href="https://www.facebook.com/ICMA-SA-de-CV-304551379649692/" target="_blank"><span class="icon-facebook3"></span></a>
+      <a href="https://www.youtube.com/channel/UCk3mE6rgT5Tw9BfPnJzklMw" target="_blank"><span class="icon-youtube3"></span></a>
+    </div>
+    </div>
+    
+    
+
+    {{#if proValue}}
+    <script src="../../js/menu.js"></script>
+    {{else}}
+    <script src="js/menu.js"></script>
+    {{/if}}
+
+    {{#if proValue}}
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    {{/if}}
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<div class="contenido">
+
+  <!-- Start WOWSlider.com BODY section -->
+  <div id="wowslider-container1">
+    <div class="ws_images">
+      <ul>
+        <li><img src="data1/images/inovaccion.jpg" alt="" title="" id="wows1_0" /></li>
+        <li><img src="data1/images/auto.jpg" alt="" title="" id="wows1_1" /></li>
+        <li><img src="data1/images/heat.jpg" alt="" title="" id="wows1_2" /></li>
+        <li><img src="data1/images/lavadora_slider.jpg" alt="" title="" id="wows1_3" /></li>
+        <li><img src="data1/images/mesa.png" alt="cssslider" title="" id="wows1_4"/></a></li>
+        <li><img src="data1/images/prensa.png" alt="" title="" id="wows1_5" /></li>
+      </ul>
+    </div>
+    
+  </div>
+  <div class="productos">
+    <div class="imagen"><span>Lavadora de Pallets</span><img src="imagenes/maquinas (1).png"></div>
+    <div class="imagen"><span>Mesa underhood</span><img src="imagenes/maquinas (4).png"></div>
+    <div class="imagen"><span>Dispositivos pick &amp; place</span><img src="imagenes/dispositivos pick and place.png"></div>
+    <div class="imagen"><span>Fixtures para producción</span><img src="imagenes/pallet.jpg"></div>
+  </div>
+  <div class="desc">Mas de 25 años desarrollando proyectos de integración para optimizar procesos productivos, resolver quejas de cliente,
+    implementar metodología LEAN y recientemente, incorporar equipos productivos al esquema Manufactura 4.0 en la industria
+    automotriz, electrodoméstica, alimentaria, medica y agroindustrial.
+  </div>
+  <br/>
+
+  <!-- End WOWSlider.com BODY section -->
+  <div class="noticias">
+    <div class="noticia1">
+      </br>
+      <h2><span class="icon-newspaper-o"> </span><strong>Noticias</strong></h2>
+      <div class="line"></div>
+      <!--NOTICIAS -->
+      {{#each noticias}}
+      <a href="noticia/{{_id}}">
+        <!--NOTICIA 1-->
+        <h6>{{Fecha}}</h6>
+        <!--FECHA-->
+        <h4>{{Titulo}}</h4>
+        <!--TITULO-->
+        <h5>{{Contenido}}</h5>
+        <!--CONTENIDO, DESCRIPCION BREBE-->
+      </a>
+      <div class="line"></div>
+      {{/each}}
+    </div>
+
+    <!--PROYECTOS-->
+    <div class="noticia1">
+
+      {{#each proyectos}}
+
+      <a href="proyecto/{{_id}}"><br/><!--PROYECTO 3-->
+      <h4>{{Titulo}}</h4><!--TITULO--> 
+      <h5>{{Parrafo_1}}</h5></a>
+      <!--CONTENIDO, DESCRIPCION BREBE-->
+      <div class="line"></div>
+      {{/each}}
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="video">
+  <h4><span class="icon-film2"> </span><strong>Video</strong></h4>
+  <iframe width="300" height="200" src="https://player.vimeo.com/video/202102394" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<script type="text/javascript" src="engine1/wowslider.js"></script>
+<script type="text/javascript" src="engine1/script.js"></script>

@@ -1,0 +1,26 @@
+<form id="login" method="post">
+    <input type="email" name="email" value="" placeholder="Tu Email">
+    <br>
+    <input type="password" name="password" value="" placeholder="Tu contraseña">
+    <br>
+    <input type="submit" value="Login">
+</form>
+
+<script type="text/javascript">
+    const formLogin = document.querySelector('#login')
+    const formData = new FormData(formLogin)
+
+    formLogin.addEventListener('submit', e =>{
+        e.preventDefault()
+        fetch('/api/signIn',{
+            method: 'POST',
+            body: formData
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data);
+            localStorage.setItem('token', data.token)
+        })
+    })
+
+</script>

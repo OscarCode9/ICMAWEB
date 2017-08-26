@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#2196F3">
+  <title>ICMA</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+  <style>
+    .card .card-action a {
+      color: #009828;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="green" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">ICMA Admin</a>
+      <ul class="right hide-on-med-and-down">
+        <li ><a href="/administradores">Noticia</a></li>
+        <li><a href="/api/Getproductos">Productos</a></li>
+        <li class="active"><a href="/api/proyecto">Proyectos</a></li>
+        <li><a id="salir">Salir</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="/administradores">Noticias</a></li>
+        <li><a href="/api/Getproductos">Productos</a></li>
+        <li><a href="/api/proyecto">Proyectos</a></li>
+        <li><a id="salir">Salir</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+  <!-- Pre Loader -->
+  <div id="loader-wrapper">
+    <div id="loader"></div>
+
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+  </div>
+
+  
+
+
+
+
+  <div class="container">
+    <h3>Administrar proyectos =) <a href="#modal1" class="btn-floating btn-large waves-effect waves-light green "><i class="material-icons">system_update_alt</i></a>      </h3>
+
+    <div class="row">
+      {{#each proyectos}}
+      <div class="col s12 m12 l4">
+        <div class="card white">
+          <div class="card-content black-text">
+            <span class="card-title black-text">{{Titulo}}</span>
+            <p>{{Parrafo_1}}</p>
+            <P>ID Noticia:</p>
+            <p id="id_noticia">{{_id}}</p>
+          </div>
+          <div class="card-action green-text">
+            <a href="/api/proyectoById/{{_id}}">Actualizar</a>
+            <button id="borrar" class="btn waves-effect waves-light">Borrar</button>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="parallax-container">
+    <div class="parallax"><img src="https://images2.alphacoders.com/698/698137.jpg"></div>
+  </div>
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Agregar nuevo proyecto</h4>
+      <form method="post" action="/api/proyecto" enctype="multipart/form-data">
+        <input type="text" placeholder="Titulo del proyecto" name="Titulo" value="" /><br/>
+        <textarea id="textarea1" class="materialize-textarea" placeholder="Escribe un el primer parrafo" name="Parrafo_1" value=""
+        /></textarea><br />
+        <textarea id="textarea2" class="materialize-textarea" placeholder="Escribe el segundo parrafo" name="Parrafo_2" value=""
+        /></textarea><br />
+        <input type="file"  class="file-path validate" name="archivo_1" accept="image/*"><br/>
+        <input type="file"  class="file-path validate" name="archivo_2" accept="image/*"><br/>
+        <input type="file"  class="file-path validate" name="archivo_3" accept="image/*"><br/>
+        <input type="file"  class="file-path validate" name="archivo_4" accept="image/*"><br/>
+        <br/>
+        <input type="reset" class="btn waves-effect waves-light" value="Restablecer todos los campos a su valor predeterminado" /><br/>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+    <i class="material-icons right">send</i>
+  </button>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+
+  </div>
+
+  <footer class="page-footer">
+
+    <div class="footer-copyright">
+      <div class="container">
+        © 2017 ICMA by Oscar Martínez
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+
+      $('.row #borrar').click(function (e) {
+        e.preventDefault();
+        var elento = $(this);
+        var id = elento.parent().parent().find('#id_noticia').text();
+
+        $.ajax({
+          url: '/api/proyecto/' + id,
+          method: 'delete',
+          success: function (res) {
+            console.log(res);
+            console.log(res);
+            elento.parent().parent().remove();
+
+          }
+        });
+      })
+
+      $('#salir').click(function (e) {
+
+
+        $.ajax({
+          url: '/cerrarsesion',
+          method: 'post',
+          success: function (res) {
+            console.log(res);
+            window.location.href = "/admin"
+
+          }
+        });
+      })
+      $(".button-collapse").sideNav();
+      $('.parallax').parallax();
+
+      $('.modal').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: .5, // Opacity of modal background
+        inDuration: 100, // Transition in duration
+        outDuration: 100, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function (modal, trigger) {
+          console.log(modal, trigger);
+        },
+        // Callback for Modal close
+      }
+      );
+
+    });
+  </script>
+</body>
+
+</html>

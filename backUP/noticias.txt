@@ -1,0 +1,20 @@
+/* 1 */
+{
+    "_id" : ObjectId("592dbb6db8fc8112282a8bb5"),
+    "Url_imagen" : "imagenes/592dbb6db8fc8112282a8bb5.png",
+    "Fecha" : "2-4-2017",
+    "Contenido" : "La principal razón para usar servicios Web es que se pueden utilizar con HTTP sobre Transmission Control Protocol (TCP) en el puerto de red 80. Dado que las organizaciones protegen sus redes mediante firewalls (que filtran y bloquean gran parte del tráfico de Internet), cierran casi todos los puertos TCP salvo el 80, que es, precisamente, el que usan los navegadores web. Los servicios Web utilizan este puerto, por la simple razón de que no resultan bloqueados. Es importante señalar que los servicios web se pueden utilizar sobre cualquier protocolo, sin embargo, TCP es el más común.\r\nOtra razón es que, antes de que existiera SOAP, no había buenas interfaces para acceder a las funcionalidades de otras computadoras en red. Las que había eran ad hoc y poco conocidas, tales como Electronic Data Interchange (EDI), Remote Procedure Call (RPC), u otras API.\r\nUna tercera razón por la que los servicios Web son muy prácticos es que pueden aportar gran independencia entre la aplicación que usa el servicio Web y el propio servicio. De esta forma, los cambios a lo largo del tiempo en uno no deben afectar al otro. Esta flexibilidad será cada vez más importante, dado que la tendencia a construir grandes aplicaciones a partir de componentes distribuidos más pequeños es cada día más utilizada.\r\nSe espera que para los próximos años mejoren la calidad y cantidad de servicios ofrecidos basados en los nuevos estándares.",
+    "Titulo" : "Noticia nuev",
+    "__v" : 0
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("597f5246b784130004e66df5"),
+    "Fecha" : "1-6-2017",
+    "Contenido" : "Nosotros somo politech actualizar",
+    "Titulo" : "Politech Soluciones",
+    "Estado" : false,
+    "__v" : 0,
+    "Url_imagen" : ""
+}

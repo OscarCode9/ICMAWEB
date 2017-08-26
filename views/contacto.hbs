@@ -1,0 +1,145 @@
+<title>
+    ICMA | Contacto</title>
+<link rel="stylesheet" href="estilos/estilos_contacto.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+<style type="text/css">
+    nav {
+        color: #fff;
+        background-color: #cccccc;
+        width: 100%;
+        height: 127px;
+        line-height: 56px;
+    }
+
+    body,
+    td,
+    th {
+        font-size: 1.3em;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    a:link {
+        text-decoration: none;
+    }
+
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:active {
+        text-decoration: none;
+    }
+
+    .formulario {
+        width: 100%;
+
+        padding: 50px;
+        background-color: whitesmoke;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Open Sans", sans-serif;
+    }
+
+    .btn {
+        text-decoration: none;
+        color: #fff;
+        background-color: #a1c53a;
+        text-align: center;
+        letter-spacing: .5px;
+        transition: .2s ease-out;
+        cursor: pointer;
+    }
+</style>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
+
+
+<div class="contenido">
+    <div class="mapa">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3701.8692691224787!2d-102.28918928450187!3d21.901109385532433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ee449026c175%3A0x764e0577c1a883d1!2sICMA!5e0!3m2!1ses!2smx!4v1480715679310"
+            width="100%" height="650" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+
+    <div class="formulario">
+        </br>
+        <h3 class=" text-blue-2">Contactanos, contestaremos lo antes posible</h3>
+
+        <form id="addProductForm" method="POST" enctype="multipart/form-data">
+            Escribe tu nombre<br>
+            <input name="name" type="text">
+            <br>Escribe tu correo<br>
+            <input name="email" id="correo" class='validate' type="email">
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" placeholder="Escribe el mensaje" name="mensaje" class="materialize-textarea"></textarea>
+
+                </div>
+            </div>
+            <div class="row center">
+                <a href="#!" id="enviar" class="modal-action waves-effect waves-green btn-flat">Enviar</a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+<script>
+    $("#enviar").click(function (event) {
+
+        function validarEmail(email) {
+            expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!expr.test(email)) {
+                Materialize.toast("Error: La dirección de correo " + email + " es incorrecta.", 2000);
+                return false;
+            } else {
+                return true;
+            }
+        }
+            if ($('#correo').val() === "") {
+                Materialize.toast('¡Escribe un correo !', 2000)
+                return 0;
+            }
+            if (!(validarEmail($('#correo').val()))) {
+                return 0;
+            }
+
+            event.preventDefault();
+            var formElement = document.getElementById('addProductForm');
+            var formData = new FormData(formElement);
+            $.ajax({
+                url: '/contacto',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    if (returndata.enviado) {
+                        Materialize.toast('¡Enviamos tu correo!', 3000, '', function () {
+                            window.location.href = "/contacto";
+                        })
+                    }
+
+                },
+                error: function () {
+                    alert("Hubo un problema al enviar, intente de nuevo");
+                }
+            });
+        });
+
+</script>

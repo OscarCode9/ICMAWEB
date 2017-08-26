@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600i,700');
+@import url('https://fonts.googleapis.com/css?family=Oswald:300,400,700&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=News+Cycle:400,700&subset=latin-ext');
+
+*{
+	box-sizing:border-box;}
+img {
+	display:block;
+	max-width:100%;}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family:'Open Sans', sans-serif;} 
+body{
+	background-color:rgba(153,153,153,1);
+	padding:0;
+	margin:0;
+	font-family:'Open Sans', sans-serif;}
+#container{
+	margin:5px;
+	box-shadow: 0 0 5px rgba(102,102,102,1);
+	background-color:rgba(204,204,204,1);
+	max-width:1400px;
+	margin:auto;}
+/*----------------header estilos--------------- */
+.header {
+  height: 60px;}
+.header .contenedor{
+  width:100%;
+  display: flex;
+  justify-content: space-between;}
+.cintillo_arriba{
+	display:block;
+	width:100%;}
+.cintillo_arriba a{
+	padding:5px;
+	color:rgba(255,255,255,1);
+	font-size:12px;
+	display:inline-table;}
+.cintillo_arriba a:hover {
+	color:rgba(0,0,0,1);}
+.texto_arriba{
+	display:block;
+	width:100%;}
+.home {
+	padding:0 20% 0 0;
+	float:left;
+	margin-left:10%;}
+.idioma{
+	float:right;}
+.busqueda{
+	float:right;
+	display:block;
+	width:100%;}
+.logo, .icon-menu {
+  margin: 5px;
+  color:#fff;}
+.icon-menu {
+  margin:20px;
+  display: block;
+  width: 40px;
+  height: 35px;
+  font-size: 30px;
+  background: #2e91d0;
+  text-align: center;
+  line-height: 45px;
+  border-radius: 5px;
+  margin-left: auto;
+  cursor: pointer;}
+/*------------------Estilos del menu------------------*/
+.nav {
+  margin-left:5%;
+  float:left;
+  width:120%;
+  position: absolute;
+  top:198px;
+  left: -100%;
+  width: 100%;
+  transition: all 0.4s;}
+.menu {
+  width:90%;
+  list-style: none;
+  top:60px;
+  padding: 0;
+  margin: 0;}
+.menu__link {
+  text-align:center;
+  display: block;
+  padding: 15px;
+  background:rgba(46, 145, 208, .8);
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);}
+.menu__link:hover, .select {
+  background: rgba(255, 255, 255, .8);
+  color:#000;}
+.mostrar {
+  left: 0;}
+  
+.nav ul ul{
+	padding:10px;
+	list-style:none;
+	background:rgba(255,255,255,1);
+    color:#000;
+	display:none;}
+
+.nav ul ul li {
+	border-bottom:1px solid rgba(46, 145, 208, 1);
+	padding:3px;}
+	
+.nav ul li:hover ul {
+	display: block;
+	position: absolute;
+	font-family: Oswald, sans-serif;
+}
+
+.nav ul ul li a{
+	color:rgba(46, 145, 208, 1);}
+	
+.nav ul li a:hover {
+	color:rgba(0,0,0,1);}
+
+/*--------------Estilos de banner--------------*/
+.banner {
+  margin-top: -60px;
+  position: relative;
+  z-index: -1000;
+  margin-bottom: 20px;}
+.banner .contenedor {
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 100%;
+  color:#ca1517;
+  text-align: center;}
+.contenido {
+	width:100%;
+	border-top:3px solid rgba(46, 145, 208, 1);
+	margin-top:108px;
+	display:flex;}
+.mapa{
+	padding:20px 2.5% 0 5%;
+	display:block;
+	width:49%;}
+.formulario{
+	display:block;
+	width:49%;}
+
+.redes{
+	padding:10px;
+	display:block;
+	margin:auto;
+	width:90%;
+	text-align:right;
+	color:rgba(0,0,0,1);}
+.redes a{
+	color:rgba(0,0,0,1);}	
+.redes a:hover{
+	color:#2e91d0;
+	}
+.redes span {
+	font-size:1.3em;}
+
+.cintillo_abajo{
+	border-top:25px solid #a1c53a;
+	padding:30px 30px 50px 30px;}
+
+.h1{
+	font-size:.6em;
+	display:inline-block;
+	width:49%;}
+h1 a{
+	color:rgba(0,0,0,1);}
+h1 a:hover{
+	color:#2e91d0;}
+@media(min-width:480px) {
+
+}
+
+@media(min-width:768px) {
+
+.busqueda{
+	width:40%;
+	float:right;}
+.home{
+	margin-right:50px;
+	display:block;}
+.idioma{
+	float:left;
+	margin-right:0;}
+}
+@media(min-width:1024px) {
+.nav {
+	float:right;
+    position: static;
+    width: auto;}
+.menu {
+    display: flex;}
+.icon-menu {
+    display: none;}
+.menu__link {
+    background: none;
+    font-size: 20px;}
+.select {
+    color: #fff;
+    background: rgba(46, 145, 208, 1);}
+.home{
+	margin-right:100px;}
+	}
+@media(min-width:1400px) {
+.home{
+	margin-right:400px;}
+
+}
+

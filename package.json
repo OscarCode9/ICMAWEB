@@ -1,0 +1,34 @@
+{
+  "name": "api-rest",
+  "version": "1.0.0",
+  "description": "Proyecto de API RESTful con NODE.js y EXPRESS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+    },
+  "author": "Oscar Martinez",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "crypto": "0.0.3",
+    "express": "^4.15.3",
+    "express-bundles": "0.0.1",
+    "express-formidable": "^1.0.0",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.2",
+    "fs.extra": "^1.3.2",
+    "jwt-simple": "^0.5.1",
+    "method-override": "^2.3.9",
+    "moment": "^2.17.1",
+    "mongoose": "^4.8.1",
+    "nodemailer": "^4.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
