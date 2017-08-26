@@ -6,7 +6,9 @@ const service = require('../services');
 const bcrypt = require('bcrypt-nodejs');
 
 function signUp(req, res){
-    console.log(req.fields)
+    console.log(req.fields.email)
+    console.log(req.fields.displayName)
+    console.log(req.fields.password)
     const user = new User({
         email:req.fields.email,
         displayName:req.fields.displayName,
