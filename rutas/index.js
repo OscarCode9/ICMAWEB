@@ -485,7 +485,7 @@ api.put('/GetProductos/:productoId', (req, res) => {
         console.log("No se agrego espeficicaciones");
       }
       if (req.fields.video_1 && req.fields.video_2) {
-        update.Nombre = req.fields.Nombre;co
+        update.Nombre = req.fields.Nombre;
         update.video.video_1 = req.fields.video_1;
         update.video.video_2 = req.fields.video_2;
         update.video.estado = true;
