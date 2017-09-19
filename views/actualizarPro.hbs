@@ -61,7 +61,7 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
             <h4 class=" red-text lighten-1">Error: no puedes dejar campos de blanco</h4>
-            <p>Debes de llenar todos los campos</p> 
+            <p>Debes de llenar todos los campos</p>
         </div>
         <div class="modal-footer">
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
@@ -106,13 +106,15 @@
                             <input class="imgPapu" type="checkbox" value="X" id="test5" /><label for="test5">Cambiar imagenes</label>
 
                             <div class="inner">
-
+                                <input type='text' id='video_1' class='file-path_video video validate' value="{{Producto.video.video_1}}" name='video_1'>
+                                <class="brsw" /br>
+                                <input type='text' id='video_2' class='file-path_video video video validate' value="{{Producto.video.video_2}}" name='video_2'>
+                                
                             </div>
 
                             <input type="checkbox" value="X" id="test6" /><label for="test6">Cambiar videos</label>
                             <div class="inner2">
-
-                            </div>
+                                 </div>
 
                             {{#if sin_fotos}}
                             <div id="imagenesTusabes">
@@ -174,6 +176,7 @@
 
     <script>
         $(document).ready(function () {
+            
             function calculartotal(formid) {
                 var sumaimportes = 0;
                 var n = 1;
@@ -269,13 +272,24 @@
 
                 }
             })
+            
+            alert($('#video_1').val());
+            alert("hola madre");
+            var video_1 = $('#video_1').val();
+            var video_2 =  $('#video_2').val();
             $('#test6').change(function () {
                 if ($(this).is(":checked")) {
+                    $(".inner").remove();
                     $(".inner2").append(`<input type='text' id='file' class='file-path_video video validate' value="" name='video_1'><class="brsw"/br>
                                 <input type='text' id='video_2' class='file-path_video video video validate' value="" name='video_2'>`);
                 } else {
                     $('.file-path_video').remove();
                     $('.brsw').remove();
+                    $(".inner").remove();
+                    $("#test6").remove();
+                    
+                
+                    
                 }
             })
 

@@ -319,11 +319,18 @@ api.get('/GetProductos/:productId', (req, res) => {
     } else if (!Producto) {
       return res.status(404).send({ message: `El producto no existe` })
     } else {
+      var numero_chido
+
+      if(Producto.Especificacion == null){
+       numero_chido=0;
+      }else{
+         numero_chido = Number(Producto.Especificacion.length);
+      }
 
 
 
 
-      var numero_chido = Number(Producto.Especificacion.length);
+      
       res.render('actualizarPro', { Producto, sin_fotos, numero_chido, layout: false });
     }
   });
@@ -415,11 +422,6 @@ api.put('/GetProductos/:productoId', (req, res) => {
           console.log('success!')
         })
 
-
-
-
-
-
         update.Url_imagen_1 = dire1;
         update.Url_imagen_2 = dire2;
         update.Url_imagen_3 = dire3;
@@ -483,9 +485,12 @@ api.put('/GetProductos/:productoId', (req, res) => {
 
       } else {
         console.log("No se agrego espeficicaciones");
+        update.Especificacion= [];
+
       }
       if (req.fields.video_1 && req.fields.video_2) {
         update.Nombre = req.fields.Nombre;
+        
         update.video.video_1 = req.fields.video_1;
         update.video.video_2 = req.fields.video_2;
         update.video.estado = true;
@@ -496,6 +501,7 @@ api.put('/GetProductos/:productoId', (req, res) => {
       
 
       update.Descripcion = req.fields.Descripcion;
+      update.Nombre = req.fields.Nombre;
 
 
 
