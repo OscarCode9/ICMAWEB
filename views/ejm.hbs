@@ -51,20 +51,17 @@
       request.
     */
     function getSignedRequest(file){
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
-      xhr.onreadystatechange = () => {
-        if(xhr.readyState === 4){
-          if(xhr.status === 200){
-            const response = JSON.parse(xhr.responseText);
-            uploadFile(file, response.signedRequest, response.url);
+      fetch(`/sign-s3?file-name=${file.name}&file-type=${file.type}`, {
+        method: 'GET',
+      })
+        .then(response => response.json())
+        .then((response) => {
+             uploadFile(file, response.signedRequest, response.url);
           }
-          else{
-            alert('Could not get signed URL.');
-          }
-        }
-      };
-      xhr.send();
+        )
+        .catch(function (e) {
+         alert("Hubo un error");
+        })
     }
     /*
      Function called when file input updated. If there is a file selected, then
