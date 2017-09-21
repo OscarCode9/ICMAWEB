@@ -54,7 +54,6 @@
       fetch(`/sign-s3?file-name=${file.name}&file-type=${file.type}`, {
         method: 'GET',
       })
-        .then(response => response.json())
         .then((response) => {
              uploadFile(file, response.signedRequest, response.url);
           }
