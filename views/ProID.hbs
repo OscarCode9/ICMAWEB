@@ -100,7 +100,7 @@
 
 	</div>
 	<div class="col s12 m6 l4">
-		<img src="../{{Pro.Url_imagen_5}}">
+		<img src="{{Pro.Url_imagen_5}}">
 	</div>
 </div>
 <div class="container">
@@ -108,18 +108,18 @@
 
 	<div class="row">
 		<div class="col s12 m12 l6">
-			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_1}}">
+			<img class="materialboxed" width="650" src="{{Pro.Url_imagen_1}}">
 		</div>
 		<div class="col s12 m12 l6">
-			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_2}}">
+			<img class="materialboxed" width="650" src="{{Pro.Url_imagen_2}}">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col s12 m12 l6">
-			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_3}}">
+			<img class="materialboxed" width="650" src="{{Pro.Url_imagen_3}}">
 		</div>
 		<div class="col s12 m12 l6">
-			<img class="materialboxed" width="650" src="../{{Pro.Url_imagen_4}}">
+			<img class="materialboxed" width="650" src="{{Pro.Url_imagen_4}}">
 		</div>
 	</div>
 
@@ -153,7 +153,7 @@
 <div class="row" id="videos">
 	<h1>Videos del producto</h1>
 
-	{{/if}}
+
 	<div class="row center ">
 
 		{{#if Pro.video.estado}}
@@ -168,12 +168,11 @@
 	</div>
 
 </div>
+{{/if}}
 <div class="row center ">
 	<a href="#" data-activates="slide-out" class="waves-effect waves-light btn button-collapse">Ver todos los productos</a>
 	<a href="#modal1" class=" btn waves-effect waves-light green ">Solicitar cotización</a>
 </div>
-
-
 <script>
 	$(document).ready(function () {
 		$(".button-collapse").sideNav();

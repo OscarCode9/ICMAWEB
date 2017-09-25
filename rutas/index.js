@@ -6,8 +6,19 @@ const userCtrl = require('../controles/user');
 const Noticias = require('../models/product');
 const Producto = require('../models/productos');
 const Proyecto = require('../models/proyectos');
-var fs = require('fs.extra');
-var fss = require('fs');
+const fs = require('fs.extra');
+const fss = require('fs');
+const AWS = require('aws-sdk');
+const multer = require('multer');
+
+var knox = require('knox');
+var client = knox.createClient({
+  key: 'AKIAJYECBEDNP4ENJSUA',
+  secret: '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',
+  bucket: 'icmas'
+});
+
+
 
 api.get('/proyecto', (req, res) => {
   if (req.session.user_id) {
@@ -177,12 +188,23 @@ api.delete('/proyecto/:id', (req, res) => {
 
 });
 
+
+
+function getUrl(req, id,ale, num, ext) {
+  const promise = new Promise(function (resolve, reject) {
+    client.putFile(req, `${id}_${ale}_${num}.${ext}`, { 'x-amz-acl': 'public-read' }, function (err, response) {
+      if (err) reject(err);
+      resolve(response.req.url);
+    })
+  })
+  return promise
+}
 api.get('/product', ProductCtrl.getProducts)
 api.get('/product/:productId', ProductCtrl.getProduct)
 
-api.post('/product', ProductCtrl.saveProduct)
+api.post('/product',multer({ dest: './noticias' }).single('upl'), ProductCtrl.saveProduct)
 
-api.post('/NewProduct', (req, res) => {
+api.post('/NewProduct', multer({ dest: './' }).single('upl'), (req, res) => {
 
   let producto = new Producto();
   var obj = req.fields;
@@ -202,73 +224,76 @@ api.post('/NewProduct', (req, res) => {
   var exten_5 = req.files.archivo_5.name.split('.').pop();
 
   //copiar imagenes a un ruta del servidor
-  fs.copy(req.files.archivo_1.path, "public/imagenes/productos/" + producto._id + "_1" + "." + exten_1);
-  fs.copy(req.files.archivo_2.path, "public/imagenes/productos/" + producto._id + "_2" + "." + exten_2);
-  fs.copy(req.files.archivo_3.path, "public/imagenes/productos/" + producto._id + "_3" + "." + exten_3);
-  fs.copy(req.files.archivo_4.path, "public/imagenes/productos/" + producto._id + "_4" + "." + exten_4);
-  fs.copy(req.files.archivo_5.path, "public/imagenes/productos/" + producto._id + "_5" + "." + exten_5);
+  var num = Math.floor((Math.random() * 1000) + 1);
+  var arregloUrls = [];
+  getUrl(req.files.archivo_1.path, producto._id,num, 1, exten_1)
+    .then(function (data) {
+      producto.Url_imagen_1 = data;
+      return getUrl(req.files.archivo_2.path, producto._id,num, 2, exten_2)
+    })
+    .then(function (data) {
+      producto.Url_imagen_2 = data;
+      return getUrl(req.files.archivo_3.path, producto._id,num, 3, exten_3)
+    })
+    .then(function (data) {
+      producto.Url_imagen_3 = data;
+      return getUrl(req.files.archivo_4.path, producto._id,num, 4, exten_4)
 
+    })
+    .then(function (data) {
+      producto.Url_imagen_4 = data;
+      return getUrl(req.files.archivo_5.path, producto._id,num, 5, exten_5)
 
-  //Asigna el nombre de la base de datos y guardar ruta de la base de datos. 
-  producto.Nombre = req.fields.Nombre;
-
-  producto.Descripcion = req.fields.Descripcion;
-  producto.Url_imagen_1 = "imagenes/productos/" + producto._id + "_1" + "." + exten_1;
-  producto.Url_imagen_2 = "imagenes/productos/" + producto._id + "_2" + "." + exten_2;
-  producto.Url_imagen_3 = "imagenes/productos/" + producto._id + "_3" + "." + exten_3;
-  producto.Url_imagen_4 = "imagenes/productos/" + producto._id + "_4" + "." + exten_4;
-  producto.Url_imagen_5 = "imagenes/productos/" + producto._id + "_5" + "." + exten_5;
-
-
-  // si se subieron videos guardar codigo en la base de datos  y asignar el estado de los videos como true en caso contrario guardar un estring basio y guarda el estado como false
-  if (req.fields.video_1 && req.fields.video_2) {
-    producto.video.estado = true;
-    producto.video.video_1 = req.fields.video_1;
-    producto.video.video_2 = req.fields.video_2;
-
-  } else {
-
-    producto.video.estado = false;
-    producto.video.video_1 = "";
-    producto.video.video_2 = "";
-
-  }
-
-  function insertArray(a, b) {
-    if (cont >= a) {
-      if (cont % 2 === 0) {
-        Espe.caracteristica = obj[i];
-      } else {
-        Espe.descripcion = obj[i];
-      }
-    }
-    if (cont >= b && cont % 2 === 0) {
-      producto.Especificacion.push(Espe);
-    }
-    cont++;
-  }
-  console.log(req.fields);
-  if (req.fields.espe1_1 && req.fields.espe2_1) {
-    for (var i = 0 in obj) {
+    })
+    .then(function (data) {
+      producto.Url_imagen_5 = data;
+      producto.Nombre = req.fields.Nombre;
+      producto.Descripcion = req.fields.Descripcion;
       if (req.fields.video_1 && req.fields.video_2) {
-        insertArray(4, 6);
+        producto.video.estado = true;
+        producto.video.video_1 = req.fields.video_1;
+        producto.video.video_2 = req.fields.video_2;
       } else {
-        insertArray(4 - 2, 6 - 2);
+        producto.video.estado = false;
+        producto.video.video_1 = "";
+        producto.video.video_2 = "";
+
       }
-    }
 
-    producto.Especificacion.push(Espe);
+      function insertArray(a, b) {
+        if (cont >= a) {
+          if (cont % 2 === 0) {
+            Espe.caracteristica = obj[i];
+          } else {
+            Espe.descripcion = obj[i];
+          }
+        }
+        if (cont >= b && cont % 2 === 0) {
+          producto.Especificacion.push(Espe);
+        }
+        cont++;
+      }
+      console.log(req.fields);
+      if (req.fields.espe1_1 && req.fields.espe2_1) {
+        for (var i = 0 in obj) {
+          if (req.fields.video_1 && req.fields.video_2) {
+            insertArray(4, 6);
+          } else {
+            insertArray(4 - 2, 6 - 2);
+          }
+        }
 
-  } else {
-    console.log("No se agrego espeficicaciones");
-  }
+        producto.Especificacion.push(Espe);
 
-  producto.save((err, producStored) => {
-    if (err) res.status(500).send({ message: `Error al salvar en la base de datos: ${err} ` })
-    res.status(200).send({ datos: producStored })
-  })
+      } else {
+        console.log("No se agrego espeficicaciones");
+      }
 
-
+      producto.save((err, producStored) => {
+        if (err) res.status(500).send({ message: `Error al salvar en la base de datos: ${err} ` })
+        res.redirect('/api/Getproductos');
+      })
+    })
 });
 
 api.get('/GetProductos', (req, res) => {
@@ -294,7 +319,7 @@ api.get('/GetProductos/:productId', (req, res) => {
 
   let productId = req.params.productId;
   var sin_fotos = true;
-  
+
 
   Producto.findById(productId, (err, Producto) => {
     if (err) {
@@ -321,16 +346,16 @@ api.get('/GetProductos/:productId', (req, res) => {
     } else {
       var numero_chido
 
-      if(Producto.Especificacion == null){
-       numero_chido=0;
-      }else{
-         numero_chido = Number(Producto.Especificacion.length);
+      if (Producto.Especificacion == null) {
+        numero_chido = 0;
+      } else {
+        numero_chido = Number(Producto.Especificacion.length);
       }
 
 
 
 
-      
+
       res.render('actualizarPro', { Producto, sin_fotos, numero_chido, layout: false });
     }
   });
@@ -338,7 +363,7 @@ api.get('/GetProductos/:productId', (req, res) => {
 })
 api.put('/GetProductos/:productoId', (req, res) => {
   let productId = req.params.productoId;
-  console.log(req.fields);
+  
 
 
   Producto.findById(productId, (err, producto_X) => {
@@ -349,41 +374,31 @@ api.put('/GetProductos/:productoId', (req, res) => {
     } else {
 
       let update = {};
-       if (req.fields.espe1_1 && req.fields.espe2_1){
-         update.Especificacion = [];
-       }
-      
+      if (req.fields.espe1_1 && req.fields.espe2_1) {
+        update.Especificacion = [];
+      }
+
+      console.log("VideO we: "+producto_X.video.video_2 );
+      console.log("VideO we: "+producto_X.video.video_1 );
+
 
       update.video = {
-        video_2: "",
-        video_1: "",
-        estado: false
-
+        video_2: producto_X.video.video_2,
+        video_1: producto_X.video.video_1,
+        estado: true
       }
-      let urls = [];
-
-      urls.push("public/" + producto_X.Url_imagen_1);
-      urls.push("public/" + producto_X.Url_imagen_2);
-      urls.push("public/" + producto_X.Url_imagen_3);
-      urls.push("public/" + producto_X.Url_imagen_4);
-      urls.push("public/" + producto_X.Url_imagen_5);
-
-    
-
+      
       if (req.files.archivo_1 && req.files.archivo_2) {
-        urls.forEach(function (url) {
-          fss.stat(url, function (err, stats) {
-            console.log(stats);
-            if (err) {
-              console.error(err);
-            }
-            fss.unlink(url, function (err) {
-              if (err) console.log(err);
-              console.log('file deleted successfully');
-            });
-
-          });
-        }, this);
+        
+        client.deleteMultiple([
+          "/"+producto_X.Url_imagen_1.split('/').pop(),
+          "/"+producto_X.Url_imagen_2.split('/').pop(),
+          "/"+producto_X.Url_imagen_3.split('/').pop(), 
+          "/"+producto_X.Url_imagen_4.split('/').pop(), 
+          "/"+producto_X.Url_imagen_5.split('/').pop()], function (err, res) {
+          if (err) console.log(err)
+          console.log(res);
+        });
 
         var exten1 = req.files.archivo_1.name.split('.').pop();
         var exten2 = req.files.archivo_2.name.split('.').pop();
@@ -393,124 +408,207 @@ api.put('/GetProductos/:productoId', (req, res) => {
         var num = Math.floor((Math.random() * 1000) + 1);
 
         var id = req.fields._id;
-        var dire1 = "imagenes/productos/" + id + num + "_1" + "." + exten1;
-        var dire2 = "imagenes/productos/" + id + num + "_2" + "." + exten2;
-        var dire3 = "imagenes/productos/" + id + num + "_3" + "." + exten3;
-        var dire4 = "imagenes/productos/" + id + num + "_4" + "." + exten4;
-        var dire5 = "imagenes/productos/" + id + num + "_5" + "." + exten5;
 
-        fs.copy(req.files.archivo_1.path, 'public/' + dire1, err => {
-        })
+        getUrl(req.files.archivo_1.path, id,num, 1, exten1)
+          .then(function (data) {
+            update.Url_imagen_1 = data;
+            return getUrl(req.files.archivo_2.path, id,num, 2, exten2)
+          })
+          .then(function (data) {
+            update.Url_imagen_2 = data;
+            return getUrl(req.files.archivo_3.path, id,num, 3, exten3)
+          })
+          .then(function (data) {
+            update.Url_imagen_3 = data;
+            return getUrl(req.files.archivo_4.path, id,num, 4, exten4)
 
-        fs.copy(req.files.archivo_2.path, 'public/' + dire2, err => {
-          if (err) return console.error(err)
-          console.log('success!')
-        })
+          })
+          .then(function (data) {
+            update.Url_imagen_4 = data;
+            return getUrl(req.files.archivo_5.path, id,num, 5, exten5)
 
-        fs.copy(req.files.archivo_3.path, 'public/' + dire3, err => {
-          if (err) return console.error(err)
-          console.log('success!')
-        })
-
-        fs.copy(req.files.archivo_4.path, 'public/' + dire4, err => {
-          if (err) return console.error(err)
-          console.log('success!')
-        })
-
-        fs.copy(req.files.archivo_5.path, 'public/' + dire5, err => {
-          if (err) return console.error(err)
-          console.log('success!')
-        })
-
-        update.Url_imagen_1 = dire1;
-        update.Url_imagen_2 = dire2;
-        update.Url_imagen_3 = dire3;
-        update.Url_imagen_4 = dire4;
-        update.Url_imagen_5 = dire5;
-
-      }
-
-
-
-      var obj = req.fields;
-      var cont = 0;
-
-      var EspeJoder = {}
-      var contento = 0;
-
-
-      console.log("Verga we:" + req.fields.video_1 && req.fields.video_2);
-
-      if (req.fields.espe1_1 && req.fields.espe2_1) {
-        var carac;
-        var descr;
-        for (var i = 0 in obj) {
-          if (req.fields.video_1 && req.fields.video_2) {
-            if (cont >= 9+1) {
-              if (cont % 2 == 0) {
-                carac = (obj[i])
-                contento++;
-              } else if (cont % 2 == 1) {
-                descr = obj[i]
-                contento++;
-              }
-              if (contento == 2) {
-                update.Especificacion.push({ caracteristica: carac, descripcion: descr })
-                contento = 0;
-              }
-            }
-
-          } else {
-
-            if (cont >= 7+1) {
-              if (cont % 2 == 0) {
-                carac = (obj[i])
-                contento++;
-              } else if (cont % 2 == 1) {
-                descr = obj[i]
-                contento++;
-              }
-              if (contento == 2) {
-                update.Especificacion.push({ caracteristica: carac, descripcion: descr })
-                contento = 0;
-              }
-            }
-
-          }
-          console.log(cont);
-
-          cont++;
-        }
-
-
-      } else {
-        console.log("No se agrego espeficicaciones");
-        update.Especificacion= [];
-
-      }
-      if (req.fields.video_1 && req.fields.video_2) {
-        update.Nombre = req.fields.Nombre;
-        
-        update.video.video_1 = req.fields.video_1;
-        update.video.video_2 = req.fields.video_2;
-        update.video.estado = true;
-
-      }
-
-
+          })
+          .then(function (data) {
+            update.Url_imagen_5 = data;
+            var obj = req.fields;
+            var cont = 0;
       
+            var EspeJoder = {}
+            var contento = 0;
+      
+      
+            console.log("Verga we:" + req.fields.video_1 && req.fields.video_2);
+      
+            if (req.fields.espe1_1 && req.fields.espe2_1) {
+              var carac;
+              var descr;
+              for (var i = 0 in obj) {
+                if (req.fields.video_1 && req.fields.video_2) {
+                  if (cont >= 9 + 1) {
+                    if (cont % 2 == 0) {
+                      carac = (obj[i])
+                      contento++;
+                    } else if (cont % 2 == 1) {
+                      descr = obj[i]
+                      contento++;
+                    }
+                    if (contento == 2) {
+                      update.Especificacion.push({ caracteristica: carac, descripcion: descr })
+                      contento = 0;
+                    }
+                  }
+      
+                } else {
+      
+                  if (cont >= 7 + 1) {
+                    if (cont % 2 == 0) {
+                      carac = (obj[i])
+                      contento++;
+                    } else if (cont % 2 == 1) {
+                      descr = obj[i]
+                      contento++;
+                    }
+                    if (contento == 2) {
+                      update.Especificacion.push({ caracteristica: carac, descripcion: descr })
+                      contento = 0;
+                    }
+                  }
+      
+                }
+                console.log(cont);
+      
+                cont++;
+              }
+      
+      
+            } else {
+              console.log("No se agrego espeficicaciones");
+              update.Especificacion = undefined;
+      
+            }
 
-      update.Descripcion = req.fields.Descripcion;
-      update.Nombre = req.fields.Nombre;
+            if (req.fields.video_1 && req.fields.video_2) {
+              update.Nombre = req.fields.Nombre;
+              update.video.video_1 = req.fields.video_1;
+              update.video.video_2 = req.fields.video_2;
+              update.video.estado = true;
+      
+            }else{
+              update.Nombre = producto_X.Nombre;
+              update.video.video_1 = producto_X.video.video_1;
+              update.video.video_2 = producto_X.video.video_2;
+              update.video.estado = true;
+            }
+      
+      
+      
+      
+            update.Descripcion = req.fields.Descripcion;
+            update.Nombre = req.fields.Nombre;
+
+            console.log("Mis UPDATE:" + update);
+      
+      
+      
+      
+            Producto.findByIdAndUpdate(productId, update, (err, productUpdated) => {
+              if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` });
+      
+              res.status(200).send({ product: productUpdated });
+            })
+          })
 
 
 
+      }else{
+        
+        var obj = req.fields;
+        var cont = 0;
+  
+        var EspeJoder = {}
+        var contento = 0;
+  
+  
+        console.log("Verga we:" + req.fields.video_1 && req.fields.video_2);
+  
+        if (req.fields.espe1_1 && req.fields.espe2_1) {
+          var carac;
+          var descr;
+          for (var i = 0 in obj) {
+            if (req.fields.video_1 && req.fields.video_2) {
+              if (cont >= 9 + 1) {
+                if (cont % 2 == 0) {
+                  carac = (obj[i])
+                  contento++;
+                } else if (cont % 2 == 1) {
+                  descr = obj[i]
+                  contento++;
+                }
+                if (contento == 2) {
+                  update.Especificacion.push({ caracteristica: carac, descripcion: descr })
+                  contento = 0;
+                }
+              }
+  
+            } else {
+  
+              if (cont >= 7 + 1) {
+                if (cont % 2 == 0) {
+                  carac = (obj[i])
+                  contento++;
+                } else if (cont % 2 == 1) {
+                  descr = obj[i]
+                  contento++;
+                }
+                if (contento == 2) {
+                  update.Especificacion.push({ caracteristica: carac, descripcion: descr })
+                  contento = 0;
+                }
+              }
+  
+            }
+            console.log(cont);
+  
+            cont++;
+          }
+  
+  
+        } else {
+          console.log("No se agrego espeficicaciones");
+          update.Especificacion = undefined;
+  
+        }
+        
+        if (req.fields.video_1 && req.fields.video_2) {
+          update.Nombre = req.fields.Nombre;
+          update.video.video_1 = req.fields.video_1;
+          update.video.video_2 = req.fields.video_2;
+          update.video.estado = true;
+  
+        }else{
+          update.Nombre = producto_X.Nombre;
+          update.video.video_1 = producto_X.video.video_1;
+          update.video.video_2 = producto_X.video.video_2;
+          update.video.estado = true;
+        }
+  
+  
+  
+  
+        update.Descripcion = req.fields.Descripcion;
+        update.Nombre = req.fields.Nombre;
+        console.log(update);
+  
+  
+  
+  
+        Producto.findByIdAndUpdate(productId, update, (err, productUpdated) => {
+          if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` });
+  
+          res.status(200).send({ product: productUpdated });
+        })
 
-      Producto.findByIdAndUpdate(productId, update, (err, productUpdated) => {
-        if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` });
-
-        res.status(200).send({ product: productUpdated });
-      })
+      }
 
     }
   });
@@ -526,26 +624,15 @@ api.delete('/GetProductos/:productoId', (req, res) => {
     pro.remove(err => {
       if (err) res.status(500).send({ message: `Error al borrar el producto: ${err}` });
 
-      let urls_2 = ["public/" + pro.Url_imagen_1,
-      "public/" + pro.Url_imagen_2,
-      "public/" + pro.Url_imagen_3,
-      "public/" + pro.Url_imagen_4];
-
-      urls_2.forEach(function (url) {
-
-        fss.stat(url, function (err, stats) {
-          console.log(stats);//here we got all information of file in stats variable
-          if (err) {
-            console.error(err);
-          }
-
-          fss.unlink(url, function (err) {
-            if (err) console.log(err);
-            console.log('file deleted successfully');
-          });
-
-        });
-      }, this);
+      client.deleteMultiple([
+        "/"+pro.Url_imagen_1.split('/').pop(),
+        "/"+pro.Url_imagen_2.split('/').pop(),
+        "/"+pro.Url_imagen_3.split('/').pop(), 
+        "/"+pro.Url_imagen_4.split('/').pop(), 
+        "/"+pro.Url_imagen_5.split('/').pop()], function (err, res) {
+        if (err) console.log(err)
+        console.log(res);
+      });
       res.status(200).send({ message: 'El producto ha sido eliminado' });
     })
   });
@@ -579,6 +666,8 @@ api.put('/product/:productId', (req, res) => {
     res.status(200).send({ product: productUpdated });
   })
 });
+
+
 
 
 module.exports = api;

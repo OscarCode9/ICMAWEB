@@ -13,9 +13,14 @@ var session = require('express-session');
 const nodemailer = require('nodemailer');
 const Producto = require('./models/productos');
 const Proyecto = require('./models/proyectos');
-const aws = require('aws-sdk');
-const S3_BUCKET = process.env.S3_BUCKET;
-aws.config.region = 'us-west-2';
+
+
+
+
+
+
+
+
 
 app.use(express.static('public'));
 
@@ -38,15 +43,15 @@ app.engine('.hbs', hbs({
 }))
 app.use(metho("_method"));
 app.set('view engine', '.hbs')
-
 app.use('/api', api);
+
 
 
 app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.get('/proyecto/:id', (req, res)=>{
+app.get('/proyecto/:id', (req, res) => {
     let proyectoID = req.params.id;
     Proyecto.findById(proyectoID, (err, Proyecto) => {
         if (err) {
@@ -55,19 +60,16 @@ app.get('/proyecto/:id', (req, res)=>{
             return res.status(404).send({ message: `El producto no existe` })
         } else {
             Producto.find({}, (err, productos) => {
-        if (err) {
-            return res.status(500).send({ message: `Error al realizar la peticion: ${err}` })
-        } else if (!productos) {
-            return res.status(404).send({ message: `No existen` })
-        } else {
-            res.render('ProyectoIndex', { productos, Proyecto, layout: false });
-            
-        }
-    })
-            
+                if (err) {
+                    return res.status(500).send({ message: `Error al realizar la peticion: ${err}` })
+                } else if (!productos) {
+                    return res.status(404).send({ message: `No existen` })
+                } else {
+                    res.render('ProyectoIndex', { productos, Proyecto, layout: false });
+                }
+            })
         }
     });
-    
 });
 
 
@@ -117,11 +119,15 @@ app.get('/productos', (req, res, err) => {
         } else if (!pro) {
             return res.status(404).send({ message: `No existen` })
         } else {
-            res.render('productos', { productos: pro,
-                 nom: { nom: pro[0].Nombre, 
-                     des: pro[0].Descripcion }
-                     , title: "ICMA | Productos", uno: "", dos: "",
-                      tres: "select", cuatro: "", cinco: "", layout:false });
+            res.render('productos', {
+                productos: pro,
+                nom: {
+                    nom: pro[0].Nombre,
+                    des: pro[0].Descripcion
+                }
+                , title: "ICMA | Productos", uno: "", dos: "",
+                tres: "select", cuatro: "", cinco: "", layout: false
+            });
         }
     })
 });
@@ -149,7 +155,7 @@ app.get('/productos/:IdPro', (req, res, err) => {
                                 return Pro.video.video_2
                             }
                         },
-                        
+
                         proValue: true,
                         productos: pro,
                         nom: { nom: pro[0].Nombre, des: pro[0].Descripcion }, uno: "",
@@ -191,9 +197,9 @@ app.post('/contacto', (req, res, err) => {
             pass: 'Omartinez02@'
         }
     });
-    
+
     let mailOptions = {
-        from: "'"+req.fields.name+"' <" + req.fields.email + ">", // sender address
+        from: "'" + req.fields.name + "' <" + req.fields.email + ">", // sender address
         to: "francisco.salas@icma-ingenieria.com", // list of receivers
         subject: 'CLIENTE COTIZACÓN', // Subject line
         text: req.fields.mensaje
@@ -202,16 +208,16 @@ app.post('/contacto', (req, res, err) => {
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
-            res.status(404).send({enviado:false})
+            res.status(404).send({ enviado: false })
         }
         res.status(200).send({ enviado: true });
     });
-    
-   
+
+
 });
-app.post('/cotizacion', (req, res, err)=>{
+app.post('/cotizacion', (req, res, err) => {
     console.log(req.fields);
-     let transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport({
         host: 'p3plcpnl0808.prod.phx3.secureserver.net',
         port: 465,
         secure: true, // secure:true for port 465, secure:false for port 587
@@ -220,10 +226,10 @@ app.post('/cotizacion', (req, res, err)=>{
             pass: 'Omartinez02@'
         }
     });
-    
+
 
     let mailOptions = {
-        from: "'"+req.fields.nombre+"' <" + req.fields.email + ">", // sender address
+        from: "'" + req.fields.nombre + "' <" + req.fields.email + ">", // sender address
         to: "francisco.salas@icma-ingenieria.com", // list of receivers
         subject: 'CLIENTE COTIZACÓN', // Subject line
         text: req.fields.requerim
@@ -232,7 +238,7 @@ app.post('/cotizacion', (req, res, err)=>{
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
-            res.status(404).send({enviado:false})
+            res.status(404).send({ enviado: false })
         }
         res.status(200).send({ enviado: "Tu mensaje fue enviado exitosamente" });
     });
@@ -247,18 +253,18 @@ app.get('/noticia/:IdNoticia', (req, res, err) => {
         } else if (!Noticia) {
             return res.status(404).send({ message: `El producto no existe` })
         } else {
-             Producto.find({}, (err, productos) => {
+            Producto.find({}, (err, productos) => {
                 if (err) {
                     return res.status(500).send({ message: `Error al realizar la peticion: ${err}` })
                 } else if (!productos) {
                     return res.status(404).send({ message: `No existen` })
                 } else {
                     console.log(Noticia.Estado);
-                    res.render('noticia', {productos,imageChida:Noticia.Estado, Noticia, title: "Noticia | " + Noticia.Titulo, layout: false });
+                    res.render('noticia', { productos, imageChida: Noticia.Estado, Noticia, title: "Noticia | " + Noticia.Titulo, layout: false });
                 }
-                
+
             })
-           
+
         }
     });
 });
@@ -314,13 +320,13 @@ app.get('/', (req, res, err) => {
                             element.Parrafo_1 = myStrin + '...';
                         }, this);
                         if (e) {
-                            
+
                             console.log("Error: " + e);
                         } else if (!proyectos) {
                             console.log("Error, el archivo no existe")
 
                         } else {
-                            res.render('index', {proyectos, productos, noticias, title: "ICMA", uno: "select", dos: "", tres: "", cuatro: "", cinco: "" });
+                            res.render('index', { proyectos, productos, noticias, title: "ICMA", uno: "select", dos: "", tres: "", cuatro: "", cinco: "" });
                         }
 
                     })
@@ -333,31 +339,6 @@ app.get('/', (req, res, err) => {
     })
 });
 
-app.get('/account', (req, res) => res.render('ejm',{layout: false}));
-aws.config.region = 'eu-west-1';
-app.get('/sign-s3', (req, res) => {
-    const s3 = new aws.S3();
-    const fileName = req.query['file-name'];
-    const fileType = req.query['file-type'];
-    const s3Params = {
-      Bucket: S3_BUCKET,
-      Key: fileName,
-      Expires: 60,
-      ContentType: fileType,
-      ACL: 'public-read'
-    };
-  
-    s3.getSignedUrl('putObject', s3Params, (err, data) => {
-      if(err){
-        console.log(err);
-        return res.end();
-      }
-      const returnData = {
-        signedRequest: data,
-        url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
-      };
-      res.send(returnData);
-    });
-  });
+
 
 module.exports = app;
