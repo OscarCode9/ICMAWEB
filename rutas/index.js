@@ -94,6 +94,8 @@ api.get('/proyectoById/:id', (req, res) => {
 
 });
 
+
+
 api.put('/proyectoById/:id', (req, res) => {
   console.log("¿que vergas esta pasando?")
 
@@ -190,7 +192,7 @@ api.delete('/proyecto/:id', (req, res) => {
 
 
 
-function getUrl(req, id,ale, num, ext) {
+function getUrl(req, id, ale, num, ext) {
   const promise = new Promise(function (resolve, reject) {
     client.putFile(req, `${id}_${ale}_${num}.${ext}`, { 'x-amz-acl': 'public-read' }, function (err, response) {
       if (err) reject(err);
@@ -202,7 +204,7 @@ function getUrl(req, id,ale, num, ext) {
 api.get('/product', ProductCtrl.getProducts)
 api.get('/product/:productId', ProductCtrl.getProduct)
 
-api.post('/product',multer({ dest: './noticias' }).single('upl'), ProductCtrl.saveProduct)
+api.post('/product', multer({ dest: './noticias' }).single('upl'), ProductCtrl.saveProduct)
 
 api.post('/NewProduct', multer({ dest: './' }).single('upl'), (req, res) => {
 
@@ -226,23 +228,23 @@ api.post('/NewProduct', multer({ dest: './' }).single('upl'), (req, res) => {
   //copiar imagenes a un ruta del servidor
   var num = Math.floor((Math.random() * 1000) + 1);
   var arregloUrls = [];
-  getUrl(req.files.archivo_1.path, producto._id,num, 1, exten_1)
+  getUrl(req.files.archivo_1.path, producto._id, num, 1, exten_1)
     .then(function (data) {
       producto.Url_imagen_1 = data;
-      return getUrl(req.files.archivo_2.path, producto._id,num, 2, exten_2)
+      return getUrl(req.files.archivo_2.path, producto._id, num, 2, exten_2)
     })
     .then(function (data) {
       producto.Url_imagen_2 = data;
-      return getUrl(req.files.archivo_3.path, producto._id,num, 3, exten_3)
+      return getUrl(req.files.archivo_3.path, producto._id, num, 3, exten_3)
     })
     .then(function (data) {
       producto.Url_imagen_3 = data;
-      return getUrl(req.files.archivo_4.path, producto._id,num, 4, exten_4)
+      return getUrl(req.files.archivo_4.path, producto._id, num, 4, exten_4)
 
     })
     .then(function (data) {
       producto.Url_imagen_4 = data;
-      return getUrl(req.files.archivo_5.path, producto._id,num, 5, exten_5)
+      return getUrl(req.files.archivo_5.path, producto._id, num, 5, exten_5)
 
     })
     .then(function (data) {
@@ -361,9 +363,70 @@ api.get('/GetProductos/:productId', (req, res) => {
   });
 
 })
+
+api.put('/productoID', function (req, res) {
+
+
+
+  console.log(req.query.id)
+  var id = req.query.id;
+  console.log(id);
+  var pathImg1 = req.files.img1.path;
+  var exten1 = req.files.img1.name.split('.').pop();
+
+  console.log(req.query)
+
+  var img1 = req.query.img1;
+  var img2 = req.query.img2;
+  var img3 = req.query.img3;
+  var img4 = req.query.img4;
+  var img5 = req.query.img5;
+
+ 
+
+
+
+  Producto.findById(id, function (err, tank) {
+    if (err) return handleError(err);
+    function eliminarURlimg(url) {
+      client.deleteMultiple([
+        url], function (err, res) {
+          if (err) console.log(err)
+          console.log(res);
+        });
+    }
+
+    var num = Math.floor((Math.random() * 1000) + 1);
+    getUrl(pathImg1, id, num, 1, exten1)
+      .then(function (data) {
+        var objDato = {};
+        if (img1) {
+          eliminarURlimg("/" + tank.Url_imagen_1.split('/').pop())
+          objDato = { Url_imagen_1: data }
+        } else if (img2) {
+          eliminarURlimg("/" + tank.Url_imagen_2.split('/').pop())
+          objDato = { Url_imagen_2: data }
+        } else if (img3) {
+          eliminarURlimg("/" + tank.Url_imagen_3.split('/').pop())
+          objDato = { Url_imagen_3: data }
+        } else if (img4) {
+          eliminarURlimg("/" + tank.Url_imagen_4.split('/').pop())
+          objDato = { Url_imagen_4: data }
+        } else if (img5) {
+          eliminarURlimg("/" + tank.Url_imagen_5.split('/').pop())
+          objDato = { Url_imagen_5: data }
+        }
+        tank.set(objDato);
+        tank.save(function (err, updatedTank) {
+          if (err) return handleError(err);
+          res.send({ url: data });
+        });
+      })
+  });
+})
 api.put('/GetProductos/:productoId', (req, res) => {
   let productId = req.params.productoId;
-  
+
 
 
   Producto.findById(productId, (err, producto_X) => {
@@ -378,8 +441,8 @@ api.put('/GetProductos/:productoId', (req, res) => {
         update.Especificacion = [];
       }
 
-      console.log("VideO we: "+producto_X.video.video_2 );
-      console.log("VideO we: "+producto_X.video.video_1 );
+      console.log("VideO we: " + producto_X.video.video_2);
+      console.log("VideO we: " + producto_X.video.video_1);
 
 
       update.video = {
@@ -387,18 +450,18 @@ api.put('/GetProductos/:productoId', (req, res) => {
         video_1: producto_X.video.video_1,
         estado: true
       }
-      
+
       if (req.files.archivo_1 && req.files.archivo_2) {
-        
+
         client.deleteMultiple([
-          "/"+producto_X.Url_imagen_1.split('/').pop(),
-          "/"+producto_X.Url_imagen_2.split('/').pop(),
-          "/"+producto_X.Url_imagen_3.split('/').pop(), 
-          "/"+producto_X.Url_imagen_4.split('/').pop(), 
-          "/"+producto_X.Url_imagen_5.split('/').pop()], function (err, res) {
-          if (err) console.log(err)
-          console.log(res);
-        });
+          "/" + producto_X.Url_imagen_1.split('/').pop(),
+          "/" + producto_X.Url_imagen_2.split('/').pop(),
+          "/" + producto_X.Url_imagen_3.split('/').pop(),
+          "/" + producto_X.Url_imagen_4.split('/').pop(),
+          "/" + producto_X.Url_imagen_5.split('/').pop()], function (err, res) {
+            if (err) console.log(err)
+            console.log(res);
+          });
 
         var exten1 = req.files.archivo_1.name.split('.').pop();
         var exten2 = req.files.archivo_2.name.split('.').pop();
@@ -409,36 +472,36 @@ api.put('/GetProductos/:productoId', (req, res) => {
 
         var id = req.fields._id;
 
-        getUrl(req.files.archivo_1.path, id,num, 1, exten1)
+        getUrl(req.files.archivo_1.path, id, num, 1, exten1)
           .then(function (data) {
             update.Url_imagen_1 = data;
-            return getUrl(req.files.archivo_2.path, id,num, 2, exten2)
+            return getUrl(req.files.archivo_2.path, id, num, 2, exten2)
           })
           .then(function (data) {
             update.Url_imagen_2 = data;
-            return getUrl(req.files.archivo_3.path, id,num, 3, exten3)
+            return getUrl(req.files.archivo_3.path, id, num, 3, exten3)
           })
           .then(function (data) {
             update.Url_imagen_3 = data;
-            return getUrl(req.files.archivo_4.path, id,num, 4, exten4)
+            return getUrl(req.files.archivo_4.path, id, num, 4, exten4)
 
           })
           .then(function (data) {
             update.Url_imagen_4 = data;
-            return getUrl(req.files.archivo_5.path, id,num, 5, exten5)
+            return getUrl(req.files.archivo_5.path, id, num, 5, exten5)
 
           })
           .then(function (data) {
             update.Url_imagen_5 = data;
             var obj = req.fields;
             var cont = 0;
-      
+
             var EspeJoder = {}
             var contento = 0;
-      
-      
+
+
             console.log("Verga we:" + req.fields.video_1 && req.fields.video_2);
-      
+
             if (req.fields.espe1_1 && req.fields.espe2_1) {
               var carac;
               var descr;
@@ -457,9 +520,9 @@ api.put('/GetProductos/:productoId', (req, res) => {
                       contento = 0;
                     }
                   }
-      
+
                 } else {
-      
+
                   if (cont >= 7 + 1) {
                     if (cont % 2 == 0) {
                       carac = (obj[i])
@@ -473,18 +536,18 @@ api.put('/GetProductos/:productoId', (req, res) => {
                       contento = 0;
                     }
                   }
-      
+
                 }
                 console.log(cont);
-      
+
                 cont++;
               }
-      
-      
+
+
             } else {
               console.log("No se agrego espeficicaciones");
               update.Especificacion = undefined;
-      
+
             }
 
             if (req.fields.video_1 && req.fields.video_2) {
@@ -492,45 +555,45 @@ api.put('/GetProductos/:productoId', (req, res) => {
               update.video.video_1 = req.fields.video_1;
               update.video.video_2 = req.fields.video_2;
               update.video.estado = true;
-      
-            }else{
+
+            } else {
               update.Nombre = producto_X.Nombre;
               update.video.video_1 = producto_X.video.video_1;
               update.video.video_2 = producto_X.video.video_2;
               update.video.estado = true;
             }
-      
-      
-      
-      
+
+
+
+
             update.Descripcion = req.fields.Descripcion;
             update.Nombre = req.fields.Nombre;
 
             console.log("Mis UPDATE:" + update);
-      
-      
-      
-      
+
+
+
+
             Producto.findByIdAndUpdate(productId, update, (err, productUpdated) => {
               if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` });
-      
+
               res.status(200).send({ product: productUpdated });
             })
           })
 
 
 
-      }else{
-        
+      } else {
+
         var obj = req.fields;
         var cont = 0;
-  
+
         var EspeJoder = {}
         var contento = 0;
-  
-  
+
+
         console.log("Verga we:" + req.fields.video_1 && req.fields.video_2);
-  
+
         if (req.fields.espe1_1 && req.fields.espe2_1) {
           var carac;
           var descr;
@@ -549,9 +612,9 @@ api.put('/GetProductos/:productoId', (req, res) => {
                   contento = 0;
                 }
               }
-  
+
             } else {
-  
+
               if (cont >= 7 + 1) {
                 if (cont % 2 == 0) {
                   carac = (obj[i])
@@ -565,46 +628,46 @@ api.put('/GetProductos/:productoId', (req, res) => {
                   contento = 0;
                 }
               }
-  
+
             }
             console.log(cont);
-  
+
             cont++;
           }
-  
-  
+
+
         } else {
           console.log("No se agrego espeficicaciones");
           update.Especificacion = undefined;
-  
+
         }
-        
+
         if (req.fields.video_1 && req.fields.video_2) {
           update.Nombre = req.fields.Nombre;
           update.video.video_1 = req.fields.video_1;
           update.video.video_2 = req.fields.video_2;
           update.video.estado = true;
-  
-        }else{
+
+        } else {
           update.Nombre = producto_X.Nombre;
           update.video.video_1 = producto_X.video.video_1;
           update.video.video_2 = producto_X.video.video_2;
           update.video.estado = true;
         }
-  
-  
-  
-  
+
+
+
+
         update.Descripcion = req.fields.Descripcion;
         update.Nombre = req.fields.Nombre;
         console.log(update);
-  
-  
-  
-  
+
+
+
+
         Producto.findByIdAndUpdate(productId, update, (err, productUpdated) => {
           if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` });
-  
+
           res.status(200).send({ product: productUpdated });
         })
 
@@ -625,14 +688,14 @@ api.delete('/GetProductos/:productoId', (req, res) => {
       if (err) res.status(500).send({ message: `Error al borrar el producto: ${err}` });
 
       client.deleteMultiple([
-        "/"+pro.Url_imagen_1.split('/').pop(),
-        "/"+pro.Url_imagen_2.split('/').pop(),
-        "/"+pro.Url_imagen_3.split('/').pop(), 
-        "/"+pro.Url_imagen_4.split('/').pop(), 
-        "/"+pro.Url_imagen_5.split('/').pop()], function (err, res) {
-        if (err) console.log(err)
-        console.log(res);
-      });
+        "/" + pro.Url_imagen_1.split('/').pop(),
+        "/" + pro.Url_imagen_2.split('/').pop(),
+        "/" + pro.Url_imagen_3.split('/').pop(),
+        "/" + pro.Url_imagen_4.split('/').pop(),
+        "/" + pro.Url_imagen_5.split('/').pop()], function (err, res) {
+          if (err) console.log(err)
+          console.log(res);
+        });
       res.status(200).send({ message: 'El producto ha sido eliminado' });
     })
   });
