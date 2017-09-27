@@ -199,6 +199,7 @@ function getUrl(req, id, ale, num, ext) {
       resolve(response.req.url);
     })
   })
+  
   return promise
 }
 api.get('/product', ProductCtrl.getProducts)
